@@ -21,7 +21,7 @@ public class TestPlayWright {
     private static final String LABEL = "aria-label";
     private static final String EXPECTED_BUTTON_TEXT = "In winkelwagen";
     private static final String COUNT = "Aantal";
-    private static final String ERROR = "Page object is null. Check initialization.";
+    private static final String ERROR = "Page object is null";
 
     @BeforeAll
     public static void setUp() {
@@ -34,18 +34,11 @@ public class TestPlayWright {
         page = context.newPage();
     }
 
-    private static void handlePopups() {
-        Locator acceptButton = page.getByRole(AriaRole.BUTTON,
-                new Page.GetByRoleOptions().setName(
-                        Pattern.compile(ACCEPT_BUTTON, Pattern.CASE_INSENSITIVE)));
-        Locator closeButton = page.getByRole(AriaRole.BUTTON,
-                new Page.GetByRoleOptions().setName(
-                        Pattern.compile(CLOSE_BUTTON, Pattern.CASE_INSENSITIVE)));
-        acceptButton.waitFor();
-        acceptButton.click();
-        closeButton.waitFor();
-        closeButton.click();
+    @AfterAll
+    public static void closePage(){
+        page.close();
     }
+
 
     public static void throwError(){
         System.out.println(ERROR);
@@ -102,4 +95,16 @@ public class TestPlayWright {
         }
     }
 
+    private static void handlePopups() {
+        Locator acceptButton = page.getByRole(AriaRole.BUTTON,
+                new Page.GetByRoleOptions().setName(
+                        Pattern.compile(ACCEPT_BUTTON, Pattern.CASE_INSENSITIVE)));
+        Locator closeButton = page.getByRole(AriaRole.BUTTON,
+                new Page.GetByRoleOptions().setName(
+                        Pattern.compile(CLOSE_BUTTON, Pattern.CASE_INSENSITIVE)));
+        acceptButton.waitFor();
+        acceptButton.click();
+        closeButton.waitFor();
+        closeButton.click();
+    }
 }
